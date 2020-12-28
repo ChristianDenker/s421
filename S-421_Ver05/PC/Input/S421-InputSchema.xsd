@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+ targetNamespace="http://www.iho.int/S100BaseModel"
+ xmlns="http://www.iho.int/S100BaseModel"  elementFormDefault="qualified">
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:s100="http://www.iho.int/S100BaseModel">
+	<xs:import namespace="http://www.iho.int/S100BaseModel" schemaLocation="S100BaseModel.xsd"/>
+	<!-- Simple non empty alpha numeric string type for references -->
+	<xs:simpleType name="IDString">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:pattern value="[0-9a-zA-Z_]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Orientation">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Forward"/>
+			<xs:enumeration value="Reverse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BoundaryType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Begin"/>
+			<xs:enumeration value="End"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="InterpolationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="None"/>
+			<xs:enumeration value="Linear"/>
+			<xs:enumeration value="Loxodromic"/>
+			<xs:enumeration value="CircularArc3Points"/>
+			<xs:enumeration value="Geodesic"/>
+			<xs:enumeration value="CircularArcCenterPointWithRadius"/>
+			<xs:enumeration value="Elliptical"/>
+			<xs:enumeration value="Conic"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GeometricPrimitive">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="None"/>
+			<xs:enumeration value="Point"/>
+			<xs:enumeration value="MultiPoint"/>
+			<xs:enumeration value="Curve"/>
+			<xs:enumeration value="Surface"/>
+			<xs:enumeration value="Coverage"/>
+			<xs:enumeration value="Complex"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Direction">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="+"/>
+			<xs:enumeration value="-"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Coordinate2D">
+		<xs:sequence>
+			<xs:element name="x" type="xs:double"/>
+			<xs:element name="y" type="xs:double"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Coordinate3D">
+		<xs:complexContent>
+			<xs:extension base="Coordinate2D">
+				<xs:sequence>
+					<xs:element name="z" type="xs:double"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:group name="Coordinate">
+		<xs:choice>
+			<xs:element name="Coordinate2D" type="Coordinate2D"/>
+			<xs:element name="Coordinate3D" type="Coordinate3D"/>
+		</xs:choice>
+	</xs:group>
+	<xs:complexType name="InformationAssociation">
+		<xs:attribute name="informationRef" type="IDString" use="required"/>
+		<xs:attribute name="role" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="FeatureAssociation">
+		<xs:attribute name="featureRef" type="IDString" use="required"/>
+		<xs:attribute name="role" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="SpatialRelation">
+		<xs:attribute name="ref" type="IDString" use="required"/>
+		<xs:attribute name="scaleMinimum" type="xs:positiveInteger"/>
+		<xs:attribute name="scaleMaximum" type="xs:positiveInteger"/>
+	</xs:complexType>
+	<xs:complexType name="MaskedRelation">
+		<xs:complexContent>
+			<xs:extension base="SpatialRelation">
+				<xs:attribute name="mask" type="xs:boolean" default="false"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BoundaryRelation">
+		<xs:complexContent>
+			<xs:extension base="SpatialRelation">
+				<xs:attribute name="boundaryType" type="BoundaryType" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CurveRelation">
+		<xs:complexContent>
+			<xs:extension base="MaskedRelation">
+				<xs:attribute name="orientation" type="Orientation" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:group name="CurveRelations">
+		<xs:choice>
+			<xs:element name="Curve" type="CurveRelation"/>
+			<xs:element name="CompositeCurve" type="CurveRelation"/>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="SpatialRelations">
+		<xs:choice>
+			<xs:element name="Point" type="MaskedRelation"/>
+			<xs:element name="PointSet" type="MaskedRelation"/>
+			<xs:element name="Surface" type="MaskedRelation"/>
+			<xs:group ref="CurveRelations"/>
+		</xs:choice>
+	</xs:group>
+	<xs:complexType name="Object" abstract="true">
+		<xs:attribute name="id" type="IDString" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Point">
+		<xs:complexContent>
+			<xs:extension base="Object">
+				<xs:sequence>
+					<xs:group ref="Coordinate"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Points">
+		<xs:complexContent>
+			<xs:extension base="Object">
+				<xs:sequence>
+					<xs:element name="Point" type="Point" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MultiPoint">
+		<xs:complexContent>
+			<xs:extension base="Object">
+				<xs:sequence>
+					<xs:group ref="Coordinate" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MultiPoints">
+		<xs:complexContent>
+			<xs:extension base="Object">
+				<xs:sequence>
+					<xs:element name="MultiPoint" type="MultiPoint" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SegmentBase">
+		<xs:sequence>
+			<xs:element name="ControlPoint" type="Coordinate2D" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="interpolation" type="InterpolationType" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Segment">
+		<xs:complexContent>
+			<xs:restriction base="SegmentBase">
+				<xs:sequence>
+					<xs:element name="ControlPoint" type="Coordinate2D" minOccurs="2" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ArcByCenterPointBase" abstract="true">
+		<xs:complexContent>
+			<xs:restriction base="SegmentBase">
+				<xs:sequence>
+					<xs:element name="ControlPoint" type="Coordinate2D" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+				<xs:attribute name="interpolation" type="InterpolationType" use="required" fixed="CircularArcCenterPointWithRadius"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ArcByCenterPoint">
+		<xs:complexContent>
+			<xs:extension base="ArcByCenterPointBase">
+				<xs:attribute name="radius" type="xs:double" use="required"/>
+				<xs:attribute name="startAngle" type="xs:double" use="required"/>
+				<xs:attribute name="angularDistance" type="xs:double" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CircleByCenterPoint">
+		<xs:complexContent>
+			<xs:extension base="ArcByCenterPointBase">
+				<xs:attribute name="radius" type="xs:double" use="required"/>
+				<xs:attribute name="direction" type="Direction" default="+"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:group name="Segments">
+		<xs:choice>
+			<xs:element name="Segment" type="Segment"/>
+			<xs:element name="ArcByCenterPoint" type="ArcByCenterPoint"/>
+			<xs:element name="CircleByCenterPoint" type="CircleByCenterPoint"/>
+		</xs:choice>
+	</xs:group>
+	<xs:complexType name="Curve">
+		<xs:complexContent>
+			<xs:extension base="Object">
+				<xs:sequence>
+					<xs:element name="Boundary" type="BoundaryRelation" minOccurs="0" maxOccurs="2"/>
+					<xs:group ref="Segments" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Curves">
+		<xs:complexContent>
+			<xs:extension base="Object">
+				<xs:sequence>
+					<xs:element name="Curve" type="Curve" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CompositeCurve">
+		<xs:complexContent>
+			<xs:extension base="Object">
+				<xs:sequence>
+					<xs:group ref="CurveRelations" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CompositeCurves">
+		<xs:complexContent>
+			<xs:extension base="Object">
+				<xs:sequence>
+					<xs:element name="CompositeCurve" type="CompositeCurve" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Ring">
+		<xs:group ref="CurveRelations" minOccurs="1" maxOccurs="unbounded"/>
+	</xs:complexType>
+	<xs:complexType name="Surface">
+		<xs:complexContent>
+			<xs:extension base="Object">
+				<xs:sequence>
+					<xs:element name="OuterRing" type="Ring" minOccurs="1"/>
+					<xs:element name="InnerRing" type="Ring" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Surfaces">
+		<xs:complexContent>
+			<xs:extension base="Object">
+				<xs:sequence>
+					<xs:element name="Surface" type="Surface" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--               -->
+	<!-- S421 FEATURES -->
+	<!-- start         -->
+	<xs:complexType name="RouteWaypoint">
+		<xs:complexContent>
+			<xs:extension base="Feature">
+				<xs:sequence>
+					<!--
+					<xs:element name="association" type="s100:FeatureAssociation" minOccurs="0"/>
+-->
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RouteWaypointLeg">
+		<xs:complexContent>
+			<xs:extension base="Feature">
+				<xs:sequence>
+					<xs:element name="association" type="s100:FeatureAssociation" minOccurs="0"/>
+					<xs:element name="routeWaypointLegIssue" type="xs:string" nillable="true" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RouteActionPoint">
+		<xs:complexContent>
+			<xs:extension base="Feature">
+				<xs:sequence>
+					<!--
+					<xs:element name="association" type="s100:FeatureAssociation" minOccurs="0"/>
+-->
+					<xs:element name="routeActionPointRequredActionDescription" type="xs:string" nillable="true" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--               -->
+	<!-- S421 FEATURES -->
+	<!-- end           -->
+	<!-- GROUP OF ALL FEATURES -->
+	<xs:group name="Feature">
+		<xs:choice>
+			<xs:element name="RouteWaypoint" type="RouteWaypoint"/>
+			<xs:element name="RouteWaypointLeg" type="RouteWaypointLeg"/>
+			<xs:element name="RouteActionPoint" type="RouteActionPoint"/>
+		</xs:choice>
+	</xs:group>
+	<!-- GROUP OF ALL FEATURES -->
+	<xs:complexType name="Information">
+		<xs:complexContent>
+			<xs:extension base="Object"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="InformationTypes">
+		<xs:complexContent>
+			<xs:extension base="Object">
+				<xs:sequence>
+					<xs:element name="Information" type="Information" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Feature">
+		<xs:complexContent>
+			<xs:extension base="Object">
+				<xs:sequence>
+					<xs:group ref="SpatialRelations" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="primitive" type="GeometricPrimitive" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Features">
+		<xs:complexContent>
+			<xs:extension base="Object">
+				<xs:sequence minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="Feature"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ============================================= -->
+	<!-- ============================================= -->
+	<!-- types and elements for the dataset definition -->
+	<!-- ============================================= -->
+	<!-- ============================================= -->
+	<xs:complexType name="DataSetType">
+		<xs:annotation>
+			<xs:documentation>"</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Object">
+				<xs:sequence>
+					<xs:element name="InformationTypes" type="Information" minOccurs="0" maxOccurs="unbounded">
+						<xs:key name="informationKey">
+							<xs:selector xpath="InformationType"/>
+							<xs:field xpath="@id"/>
+						</xs:key>
+					</xs:element>
+					<xs:element name="Points" type="Points" minOccurs="0" maxOccurs="unbounded">
+						<xs:key name="pointKey">
+							<xs:selector xpath="Point"/>
+							<xs:field xpath="@id"/>
+						</xs:key>
+					</xs:element>
+					<xs:element name="MultiPoints" type="MultiPoints" minOccurs="0" maxOccurs="unbounded">
+						<xs:key name="multiPointKey">
+							<xs:selector xpath="MultiPoint"/>
+							<xs:field xpath="@id"/>
+						</xs:key>
+					</xs:element>
+					<xs:element name="Curves" type="Curves" minOccurs="0" maxOccurs="unbounded">
+						<xs:key name="curveKey">
+							<xs:selector xpath="Curve"/>
+							<xs:field xpath="@id"/>
+						</xs:key>
+					</xs:element>
+					<xs:element name="CompositeCurves" type="CompositeCurves" minOccurs="0" maxOccurs="unbounded">
+						<xs:key name="compositeCurveKey">
+							<xs:selector xpath="CompositeCurve"/>
+							<xs:field xpath="@id"/>
+						</xs:key>
+					</xs:element>
+					<xs:element name="Surfaces" type="Surfaces" minOccurs="0" maxOccurs="unbounded">
+						<xs:key name="surfaceKey">
+							<xs:selector xpath="Surface"/>
+							<xs:field xpath="@id"/>
+						</xs:key>
+					</xs:element>
+					<xs:element name="Features" type="Features" minOccurs="0" maxOccurs="unbounded">
+						<xs:key name="featureKey">
+							<xs:selector xpath="*"/>
+							<xs:field xpath="@id"/>
+						</xs:key>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- THE ROOT ELEMENT (OF TYPE DataSet) -->
+	<xs:element name="DataSet" type="DataSetType">
+		<!-- KEY REFERENCES -->
+		<xs:keyref name="informationRef" refer="informationKey">
+			<xs:selector xpath=".//*"/>
+			<xs:field xpath="@informationRef"/>
+		</xs:keyref>
+		<xs:keyref name="pointRef" refer="pointKey">
+			<xs:selector xpath="Features/*/s100:Point | Curves/Curve/s100:Boundary"/>
+			<xs:field xpath="@ref"/>
+		</xs:keyref>
+		<xs:keyref name="multiPointRef" refer="multiPointKey">
+			<xs:selector xpath="Features/*/s100:MultiPoint"/>
+			<xs:field xpath="@ref"/>
+		</xs:keyref>
+		<xs:keyref name="curveRef" refer="curveKey">
+			<xs:selector xpath="Features/*/s100:Curve | CompositeCurves/CompositeCurve/s100:Curve |
+		Surfaces/Surface/s100:Ring/s100:Curve"/>
+			<xs:field xpath="@ref"/>
+		</xs:keyref>
+		<xs:keyref name="compositeCurveRef" refer="compositeCurveKey">
+			<xs:selector xpath="Features/*/s100:CompositeCurve |
+		CompositeCurves/CompositeCurve/s100:CompositeCurve |
+		Surfaces/Surface/s100:Ring/s100:CompositeCurve"/>
+			<xs:field xpath="@ref"/>
+		</xs:keyref>
+		<xs:keyref name="surfaceRef" refer="surfaceKey">
+			<xs:selector xpath="Features/*/s100:Surface"/>
+			<xs:field xpath="@ref"/>
+		</xs:keyref>
+		<xs:keyref name="featureRef" refer="featureKey">
+			<xs:selector xpath="Features/*/*"/>
+			<xs:field xpath="@featureRef"/>
+		</xs:keyref>
+	</xs:element>
+	<!--
+	<xs:element name="DataSet" type="DatasetType"/>
+-->
+</xs:schema>

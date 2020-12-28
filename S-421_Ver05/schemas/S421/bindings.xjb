@@ -1,0 +1,84 @@
+<jxb:bindings version="2.0"
+      xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema" >
+
+    <jxb:bindings schemaLocation="../S100_3_0_0/w3c/XML/2008/06/xlink.xsd" node="/xs:schema">
+
+        <jxb:bindings node="//xs:attributeGroup[@name='locatorAttrs']">
+            <jxb:bindings node=".//xs:attribute[@ref='xlink:title']">
+                <jxb:property name="title1"/>
+            </jxb:bindings>
+        </jxb:bindings>
+
+        <jxb:bindings node="//xs:attributeGroup[@name='arcAttrs']">           
+            <jxb:bindings node=".//xs:attribute[@ref='xlink:title']">
+                <jxb:property name="title2"/>
+            </jxb:bindings>            
+        </jxb:bindings>              
+    </jxb:bindings>  
+	
+	<jxb:bindings schemaLocation="../S100_3_0_0/S100GML/20170505/s100gmlbase.xsd">
+        <jxb:bindings node="//xs:complexType[@name='CurveType']">
+            <jxb:class name="CurveTypeGmlBase"/>
+        </jxb:bindings>
+		<jxb:bindings node="//xs:complexType[@name='SurfaceType']">
+            <jxb:class name="SurfaceTypeGmlBase"/>
+        </jxb:bindings>
+		<jxb:bindings node="//xs:complexType[@name='PolygonType']">
+            <jxb:class name="PolygonTypeGmlBase"/>
+        </jxb:bindings>
+		<jxb:bindings node="//xs:complexType[@name='AbstractFeatureType']">
+            <jxb:class name="AbstractFeatureTypeGmlBase"/>
+        </jxb:bindings>
+		<jxb:bindings node="//xs:complexType[@name='MultiPointType']">
+            <jxb:class name="MultiPointTypeGmlBase"/>
+        </jxb:bindings>
+		<jxb:bindings node="//xs:complexType[@name='CurvePropertyType']">
+            <jxb:class name="CurvePropertyTypeGmlBase"/>
+        </jxb:bindings>
+		<jxb:bindings node="//xs:complexType[@name='PointPropertyType']">
+            <jxb:class name="PointPropertyTypeGmlBase"/>
+        </jxb:bindings>
+		<jxb:bindings node="//xs:complexType[@name='PointType']">
+            <jxb:class name="PointTypeGmlBase"/>
+        </jxb:bindings>
+		<jxb:bindings node="//xs:complexType[@name='FeaturePropertyType']">
+            <jxb:class name="FeaturePropertyTypeGmlBase"/>
+        </jxb:bindings>
+		<jxb:bindings node="//xs:complexType[@name='SurfacePropertyType']">
+            <jxb:class name="SurfacePropertyTypeGmlBase"/>
+        </jxb:bindings>
+		<jxb:bindings node="//xs:complexType[@name='CompositeCurveType']">
+            <jxb:class name="CompositeCurveTypeGmlBase"/>
+        </jxb:bindings>		
+		
+		   
+                      
+       
+		
+    </jxb:bindings>
+	
+    <jxb:bindings schemaLocation="../S100_3_0_0/S100GML/20170505/S100_gmlProfile.xsd">
+        <jxb:bindings node="//xs:complexType[@name='CurveType']">
+            <jxb:class name="CurveTypeGmlProfile"/>
+        </jxb:bindings>
+		<jxb:bindings node="//xs:complexType[@name='SurfaceType']">
+            <jxb:class name="SurfaceTypeProfile"/>
+        </jxb:bindings>
+		<jxb:bindings node="//xs:complexType[@name='PolygonType']">
+            <jxb:class name="PolygonTypeProfile"/>
+        </jxb:bindings>
+		<jxb:bindings node="//xs:complexType[@name='CurvePropertyType']">
+            <jxb:class name="CurvePropertyTypeProfile"/>
+        </jxb:bindings>
+		<jxb:bindings node="//xs:complexType[@name='SurfacePropertyType']">
+            <jxb:class name="SurfacePropertyTypeProfile"/>
+        </jxb:bindings>
+		<jxb:bindings node="//xs:complexType[@name='PointPropertyType']">
+            <jxb:class name="PointPropertyTypeProfile"/>
+        </jxb:bindings>
+		
+		
+    </jxb:bindings>	
+
+</jxb:bindings>

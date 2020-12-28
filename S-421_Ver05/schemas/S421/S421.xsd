@@ -1,0 +1,1486 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:S100="http://www.iho.int/s100gml/1.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns="http://www.iho.int/S421/gml/1.0" xmlns:S100EXT="http://www.iho.int/s100gml/1.0+EXT" xmlns:ns1="http://www.iho.int/S-100/profile/s100_gmlProfile" targetNamespace="http://www.iho.int/S421/gml/1.0" elementFormDefault="unqualified" version="1.0.0-20200701">
+	<!--
+-->
+	<!-- ============================================================================================= -->
+	<!-- S100 XML/GML Schema for S-421 ().                                       -->
+	<!-- ============================================================================================= -->
+	<!-- =============================================================================================
+Draft Copyright, license, and disclaimer
+© Copyright 2012-2016 ... (Formal Copyright statement tbd - possibly IHO?)
+© Copyright 2017 IHB
+
+License
+Certain parts of this document refer to or are based on the standards, documents, schemas, or other material
+of the International Organization for Standardization (ISO), Open Geospatial Consortium (OGC), International
+Hydrographic Organization / Organisation Hydrographique Internationale (IHO/OHI).
+The ISO material can be obtained from any ISO member and from the Web site of the ISO Central Secretariat
+at www.iso.org.
+The OGC material can be obtained from the OGC Web site at www.opengeospatial.org.
+The IHO material can be obtained from the IHO Web site at www.iho.int or from the International Hydrographic
+Bureau.
+
+Permission to copy and distribute this document is hereby granted provided that this notice is retained
+on all copies, and that IHO & Jeppesen are credited when the material is redistributed or used in
+part or whole in derivative works.
+Redistributions in binary form must reproduce this notice in the documentation and/or other materials
+provided with the distribution.
+
+Disclaimer
+This work is provided by the copyright holders and contributors "as is" and any express or implied warranties,
+including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose
+are disclaimed. In no event shall the copyright owner or contributors be liable for any direct, indirect,
+incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute
+goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of
+liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way
+out of the use of this software, even if advised of the possibility of such damage.
+
+Document history
+Draft 1	2014-04-04	Raphael Malyankar (Jeppesen)	Initial version
+V.	1.0.0 Build 20170430 April 2017 (Raphael Malyankar) Updated for Version 1.0 of S-123 (April 2017);
+		meta and cartographic features; nillability and extensions schema
+V.	1.0.0 Build 20200311 March 2020 (Hae Sook Jeon) Updated for Version 1.0 of S-421 (March 2020); CIRM Ver 0.1
+V.	1.0.0 Build 20200701 July  2020 (Hae Sook Jeon) Updated for Version 1.0 of S-421 (July  2020); CIRM Ver 0.2
+
+================================================================================================== -->
+	<!-- To do: Schematron validation rules; full restrictions for numeric type attributes(?);
+-->
+	<!-- profile: xmlns:gml="http://www.iho.int/S-100/profile/s100_gmlProfile"
+        deployment:
+        (1) change gml namespace to official GML namespace http://www.opengis.net/gml/3.2
+        (2) add profile namespace xmlns:s100="http://www.iho.int/S-100/profile/s100_gmlProfile"
+        (3) update import statement below correspondingly
+-->
+	<xs:annotation>
+		<xs:documentation> XML Application schema for IEC 63173-1 ED1.0 S-421 Route Plan Based on S-100 </xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://www.iho.int/s100gml/1.0" schemaLocation="../S100_3_0_0/S100GML/20170505/s100gmlbase.xsd"/>
+	<xs:import namespace="http://www.opengis.net/gml/3.2" schemaLocation="../S100_3_0_0/S100GML/20170505/S100_gmlProfile.xsd"/>
+	<xs:import namespace="http://www.iho.int/S-100/profile/s100_gmlProfile" schemaLocation="../S100_3_0_0/S100GML/20170505/S100_gmlProfileLevels.xsd"/>
+	<xs:import namespace="http://www.iho.int/s100gml/1.0+EXT" schemaLocation="../S100_3_0_0/S100GML/20170505/s100gmlbaseExt.xsd"/>
+	<!-- =============================================== -->
+	<!-- simple property convenience types    -->
+	<!-- =============================================== -->
+	<!-- =============================================== -->
+	<!-- spatial property convenience types    -->
+	<!-- =============================================== -->
+	<xs:complexType name="GM_Point">
+		<xs:choice>
+			<xs:element ref="S100:pointProperty"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="GM_Curve">
+		<xs:choice>
+			<xs:element ref="S100:curveProperty"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="GM_Surface">
+		<xs:choice>
+			<xs:element ref="S100:surfaceProperty"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="RouteActionPointSpaceGeometry">
+		<xs:choice>
+			<xs:element ref="S100:pointProperty"/>
+			<xs:element ref="S100:curveProperty"/>
+			<xs:element ref="S100:surfaceProperty"/>
+		</xs:choice>
+	</xs:complexType>
+	<!-- ============================================================ -->
+	<!-- complex attributes, feature, and information types           -->
+	<!-- ============================================================ -->
+	<xs:element name="FeatureType" type="FeatureType" abstract="true" substitutionGroup="gml:AbstractFeature"/>
+	<xs:complexType name="FeatureType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Generalized feature type which carry all the common attributes</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="S100:AbstractFeatureType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="InformationType" type="InformationTypeType" abstract="true"/>
+	<xs:complexType name="InformationTypeType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Generalized information type which carry all the common attributes</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="S100:AbstractInformationType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ============================================================ -->
+	<!-- complex attributes, feature, and information types           -->
+	<!-- ============================================================ -->
+	<!-- ============================================================ -->
+	<!-- ============================================================ -->
+	<!-- complex attributes, feature, and information types for S421  -->
+	<!-- ============================================================ -->
+	<!-- ============================================================ -->
+	<!-- ============================================================ -->
+	<!-- ============================================================ -->
+	<!-- ============================================================ -->
+	<!-- Simple types Start for S421  -->
+	<!-- ============================================================ -->
+	<!-- ============================================================ -->
+	<!-- ============================================================ -->
+	<!-- ============================================================ -->
+	<!-- Enum  Start-->
+	<!-- ============================================================ -->
+	<!-- ============================================================ -->
+	<!--                                                          -->
+	<!-- RouteInfoStatus definition -->
+	<!--  ???                                                        -->
+	<xs:simpleType name="RouteInfoStatus">
+		<xs:annotation>
+			<xs:documentation>
+			RouteStatusInfo should be used to inform the status of the route information.
+			</xs:documentation>
+			<xs:documentation> </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>Initial</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>Planned</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>Recommended</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="4">
+				<xs:annotation>
+					<xs:documentation>Acknowledged</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="5">
+				<xs:annotation>
+					<xs:documentation>Used for Monitoring</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="6">
+				<xs:annotation>
+					<xs:documentation>Terminated</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="7">
+				<xs:annotation>
+					<xs:documentation>Errors</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="8">
+				<xs:annotation>
+					<xs:documentation>Incomplete</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="9">
+				<xs:annotation>
+					<xs:documentation>Route issues</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="10">
+				<xs:annotation>
+					<xs:documentation>Service started</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="11">
+				<xs:annotation>
+					<xs:documentation>Service ended</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--                                                          -->
+	<!-- RouteActionPointRequiredAction definition -->
+	<!--  ???                                                        -->
+	<xs:simpleType name="RouteActionPointRequiredAction">
+		<xs:annotation>
+			<xs:documentation>
+			RouteActionPointRequiredAction should be used to inform the required action of the route action point.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>UserDefined</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>Report</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>UKCM</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="4">
+				<xs:annotation>
+					<xs:documentation>Note</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="5">
+				<xs:annotation>
+					<xs:documentation>Reserved</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="6">
+				<xs:annotation>
+					<xs:documentation>Reserved2</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="7">
+				<xs:annotation>
+					<xs:documentation>Reserved3</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="8">
+				<xs:annotation>
+					<xs:documentation>Reserved4</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="9">
+				<xs:annotation>
+					<xs:documentation>Reserved5</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--                                                          -->
+	<!-- RouteActionPointRequiredAction definition -->
+	<!--  ???                                                        -->
+	<xs:simpleType name="RouteInfoVesselType">
+		<xs:annotation>
+			<xs:documentation>
+			Vessel Type.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="2"/>
+			<xs:minInclusive value="0"/>
+			<xs:enumeration value="0">
+				<xs:annotation>
+					<xs:documentation>Fishing</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>Towing</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>Engaged in dredging or underwater operations</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="4">
+				<xs:annotation>
+					<xs:documentation>Engaged in diving operations</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="5">
+				<xs:annotation>
+					<xs:documentation>Engaged in diving operations</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="6">
+				<xs:annotation>
+					<xs:documentation>Sailing</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="7">
+				<xs:annotation>
+					<xs:documentation>Plaeasure craft</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="8">
+				<xs:annotation>
+					<xs:documentation>Reserved for future use</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="9">
+				<xs:annotation>
+					<xs:documentation>Reserved for future use</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="10">
+				<xs:annotation>
+					<xs:documentation>1-Reserved for future use, 0-All ships of this type</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="21">
+				<xs:annotation>
+					<xs:documentation>2-WIG, 1-Carrying DG, HS MP, IMO Hazard or pollutant category X(2)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="32">
+				<xs:annotation>
+					<xs:documentation>3-See right column 2-WIG, 1-Carrying DG, HS MP, IMO Hazard or pollutant category Y(2)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="43">
+				<xs:annotation>
+					<xs:documentation>4-HSC 3-Carrying DG, HS MP, IMO Hazard or pollutant category OS(2)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="50">
+				<xs:annotation>
+					<xs:documentation>Pilot vessel</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="51">
+				<xs:annotation>
+					<xs:documentation>Search and Rescue Vessel</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="52">
+				<xs:annotation>
+					<xs:documentation>Tugs</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="53">
+				<xs:annotation>
+					<xs:documentation>Port tenders</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="54">
+				<xs:annotation>
+					<xs:documentation>vessel with anti-pollution facilities and equipment</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="55">
+				<xs:annotation>
+					<xs:documentation>Law enforcement vessels</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="56">
+				<xs:annotation>
+					<xs:documentation>Spare - for assignments to local vessels</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="57">
+				<xs:annotation>
+					<xs:documentation>Spare 2 - for assignments to local vessels</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="58">
+				<xs:annotation>
+					<xs:documentation>Medical transports</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="59">
+				<xs:annotation>
+					<xs:documentation>Ships and aircraft of States not parties to an armed conflict</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="66">
+				<xs:annotation>
+					<xs:documentation>6-Passenger ships, 6-Reserved for future use</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="77">
+				<xs:annotation>
+					<xs:documentation>7-Cargo ships, 7-Reserved for future use</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="88">
+				<xs:annotation>
+					<xs:documentation>8-Tankers, 8-Reserved for future use</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="99">
+				<xs:annotation>
+					<xs:documentation>1-Other ships of Ship, 9- No additional information </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--                                 -->
+	<!-- Geometry type definition -->
+	<!--                                 -->
+	<xs:simpleType name="RouteWaypointLegGeometryType">
+		<xs:annotation>
+			<xs:documentation>RL/GC indicator.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>Loxodrome</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>Orthodrome</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- ============================================================ -->
+	<!-- ============================================================ -->
+	<!-- Simple types : Enum End -->
+	<!-- ============================================================ -->
+	<!-- ============================================================ -->
+	<!--                                      -->
+	<!-- "BooleanType" element type definition -->
+	<!--                                      -->
+	<xs:simpleType name="Boolean">
+		<xs:annotation>
+			<xs:documentation>RealBoolean Type.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:boolean"/>
+	</xs:simpleType>
+	<!--                                      -->
+	<!-- "TextType" element type definition -->
+	<!--                                      -->
+	<!-- For Example, routeFormatVersion -->
+	<xs:simpleType name="Text">
+		<xs:annotation>
+			<xs:documentation>String Type.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="NonEmptyText">
+		<xs:annotation>
+			<xs:documentation>String Type.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([a-zA-Z|\d]+[a-zA-Z|\d|W.]+[a-zA-Z|\d])"/>
+			<!--		<xs:pattern value="([a-zA-Z|\d]+[a-zA-Z|\d|W.|\s|W_|W-]+[a-zA-Z|\d])"/>
+-->
+		</xs:restriction>
+	</xs:simpleType>
+	<!--                                      -->
+	<!-- "IMONumberText : 7 digit" element type definition -->
+	<!--                                      -->
+	<xs:simpleType name="IMONumberText">
+		<xs:annotation>
+			<xs:documentation>String Type.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="7"/>
+			<xs:pattern value="\d{7}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--                                      -->
+	<!-- "MMSINumberText : 9 digit" element type definition -->
+	<!--                                      -->
+	<xs:simpleType name="MMSINumberText">
+		<xs:annotation>
+			<xs:documentation>String Type.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="9"/>
+			<xs:pattern value="\d{9}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--                                      -->
+	<!-- "IntegerType" element type definition -->
+	<!--                                      -->
+	<xs:simpleType name="Integer">
+		<xs:annotation>
+			<xs:documentation>Integer Type.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer"/>
+	</xs:simpleType>
+	<!--                                      -->
+	<!-- "PositiveIntegerType" element type definition -->
+	<!--                                      -->
+	<xs:simpleType name="PositiveInteger">
+		<xs:annotation>
+			<xs:documentation>Positive Integer Type.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--                                      -->
+	<!-- "RealType" element type definition -->
+	<!--                                      -->
+	<xs:simpleType name="Real">
+		<xs:annotation>
+			<xs:documentation>RealType.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<!--                                      -->
+	<!-- "NonNegativeReal" element type definition -->
+	<!--                                      -->
+	<xs:simpleType name="NonNegativeReal">
+		<xs:annotation>
+			<xs:documentation>NonNegativeReal type.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0.0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--                                      -->
+	<!-- "NonNegativeRealWith1DecimalPlace" element type definition -->
+	<!--                                      -->
+	<xs:simpleType name="NonNegativeRealWith1DecimalPlace">
+		<xs:annotation>
+			<xs:documentation>NonNegativeReal type.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0.0"/>
+			<xs:fractionDigits value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--                                      -->
+	<!-- "NonNegativeRealWith1DecimalPlace" element type definition -->
+	<!--                                      -->
+	<xs:simpleType name="NonNegativeRealWith2DecimalPlace">
+		<xs:annotation>
+			<xs:documentation>NonNegativeReal type.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0.00"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--                                      -->
+	<!-- "RadiusType" element type definition -->
+	<!--                                      -->
+	<xs:simpleType name="RadiusType">
+		<xs:annotation>
+			<xs:documentation>Radius type.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0.0"/>
+			<xs:maxExclusive value="5.01"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--                     -->
+	<!-- XTD type definition -->
+	<!--                     -->
+	<xs:simpleType name="XtdType">
+		<xs:annotation>
+			<xs:documentation>
+			XTD of the point. Nautical miles.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="1.0"/>
+			<xs:maxExclusive value="10000.0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--                        -->
+	<!-- DateTime definition -->
+	<!--                        -->
+	<xs:simpleType name="DateTime">
+		<xs:annotation>
+			<xs:documentation>
+			The DateTime is a combination of a date and a time; for example, [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm].
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:dateTime"/>
+	</xs:simpleType>
+	<!--                                      -->
+	<!-- "PortIDType : 5 character digit"  definition -->
+	<!--                                      -->
+	<xs:simpleType name="PortIDType">
+		<xs:annotation>
+			<xs:documentation>String Type.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="5"/>
+			<xs:pattern value="[a-z]{5}"/>
+			<!--			<xs:pattern value="[a-zA-Z]{5}"/>
+-->
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- ============================================================ -->
+	<!-- Simple type End for S421  -->
+	<!-- ============================================================ -->
+	<!-- ============================================================ -->
+	<!-- ============================================================ -->
+	<!-- Complex types Start for S421  -->
+	<!-- ============================================================ -->
+	<!-- ============================================================ -->
+	<!--                                      -->
+	<!-- "routeExtensions" element type definition  -->
+	<!--                                      -->
+	<xs:complexType name="RouteExtensions">
+		<xs:annotation>
+			<xs:documentation>
+			Route Extensions
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="InformationTypeType">
+				<xs:sequence>
+					<xs:element name="routeExtensionsNote" type="Text" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Route Extension Note</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="routeExtensionsManufacturerId" type="Text" use="required">
+					<xs:annotation>
+						<xs:documentation>
+						Unique vendor identifier for the Route extensions
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="routeExtensionsName" type="Text" use="optional">
+					<xs:annotation>
+						<xs:documentation>
+						Route extension name
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="routeExtensionsVersion" type="Text" use="optional">
+					<xs:annotation>
+						<xs:documentation>
+						RouteExtension version 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--                              -->
+	<!-- Root element type definition -->
+	<!--                              -->
+	<xs:element name="route" type="Route" substitutionGroup="FeatureType"/>
+	<xs:complexType name="Route">
+		<xs:annotation>
+			<xs:documentation>
+        RTZ files contain a number of waypoints, followed with auxiliary schedules. You can add your own elements to the extension 	section of the RTZ document.
+		</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="FeatureType">
+				<xs:sequence>
+					<xs:element name="routeFormatVersion" type="Text" fixed="1.0" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							The version of this route format
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeID" type="NonEmptyText" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Unique Route Identifier, At least three characters of alphanumeric and periods. The first and last letters are alphanumeric only
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeEditionNo" type="PositiveInteger" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Route Edition number
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfo" type="gml:ReferenceType" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="routeWaypoints" type="gml:ReferenceType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="routeSchedules" type="gml:ReferenceType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="routeActionPoints" type="gml:ReferenceType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="routeExtensions" type="RouteExtensions" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+							Additional proprietary information for the route specified by the manufacturer.
+						</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--                                      -->
+	<!-- "RouteInfo" element type definition  -->
+	<!--                                      -->
+	<xs:element name="routeInfo" type="RouteInfo" substitutionGroup="InformationType"/>
+	<xs:complexType name="RouteInfo">
+		<xs:annotation>
+			<xs:documentation>
+			list of route information
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="InformationTypeType">
+				<xs:sequence>
+					<xs:element name="routeInfoName" type="NonEmptyText" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Name of the route, At least three characters of alphanumeric and periods. The first and last letters are alphanumeric only</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoAuthor" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Author of the route</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoEditionTime" type="DateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Time for this edition of route plan is edited </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoDescription" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Additional information for the status of the route 
+							i.e. specific error message and/or cause of the route change and/or any other detail to consider before 																							
+							futher use of this route plan and/or the purpose of sending a route plan and/or why this route is
+							recommended.																															
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoStatus" type="RouteInfoStatus" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Enumeration of Status of route. </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoValidityStart" type="DateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Start of validity of route plan period </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoValidityEnd" type="DateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Stop of validity of route plan period</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoDeparturePortID1" type="PortIDType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Primary identifier for departure port given by UN/LOCODE</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoDeparturePortID2" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Secondary identifier for departure port given by free text string</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoDeparturePortCall" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference to port call identifier in departinng port</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoArrivalPortID1" type="PortIDType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Primary identifier for arrival port given by UN/LOCODE</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoArrivalPortID2" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Secondary identifier for arrival port given by free text string</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoArrivalPortCall" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference to port call identifier in arriving port</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoReferencePrevRoute" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference previous route. </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoReferenceNextRoute" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference Next route. </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoVesselType" type="RouteInfoVesselType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Type of vessel</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoVesselName" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Ship’s name</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoVesselMMSI" type="MMSINumberText" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Ship’s MMSI (XXXXXXXXX)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoVesselCallsign" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Ship’s Call sign </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoVesselIMO" type="IMONumberText" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Ship’s IMO number (XXXXXXX)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoVesselVoyage" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Unique voyage identifier</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoVesselHeight" type="NonNegativeRealWith2DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Vessel height measured from the keel to the masthead</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoVesselLength" type="NonNegativeRealWith2DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Vessel length overall (LOA)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoVesselBeam" type="NonNegativeRealWith2DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Vessel beam</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoDraftMax" type="NonNegativeRealWith2DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Maximum draft of the route</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoAirDraftMax" type="NonNegativeRealWith2DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Maximum Air draft of the route</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoBeamMax" type="NonNegativeRealWith2DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Maximum Vessel beam of the route</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoLengthMax" type="NonNegativeRealWith2DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Maximum Vessel length of the route</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeInfoExtensions" type="RouteExtensions" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+							Additional proprietary information for the route info specified by the manufacturer
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- "RouteWaypoints" element type definition  -->
+	<!--                                      -->
+	<xs:element name="routeWaypoints" type="RouteWaypoints" substitutionGroup="FeatureType"/>
+	<xs:complexType name="RouteWaypoints">
+		<xs:complexContent>
+			<xs:extension base="FeatureType">
+				<xs:sequence>
+					<xs:element name="routeWaypointsCollection" type="gml:ReferenceType" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="routeWaypoint" type="gml:ReferenceType" minOccurs="2" maxOccurs="unbounded"/>
+					<xs:element name="routeWaypointsExtensions" type="RouteExtensions" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+							Additional proprietary information for the waypoints specified by the manufacturer
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--                                           -->
+	<!-- "RouteWaypointDefault" element type definition -->
+	<!--                                           -->
+	<!--                                    -->
+	<!-- "RouteWaypoint" element type definition -->
+	<!--                                    -->
+	<xs:element name="routeWaypoint" type="RouteWaypoint" substitutionGroup="FeatureType"/>
+	<xs:complexType name="RouteWaypoint">
+		<xs:complexContent>
+			<xs:extension base="FeatureType">
+				<xs:sequence>
+					<xs:element name="geometry" type="GM_Point" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Geographical position of the waypoint in degrees</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointID" type="PositiveInteger" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Identifier of the waypoints. The identifier shall be  unique in the system</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointName" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Name of waypoint</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointExternalReferenceID" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>External reference information related with the waypoint</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointFixed" type="Boolean" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Indicator if the route waypoint is fixed(true) or editable(false)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointTurnRadius" type="RadiusType" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Turn radius in nautical miles</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointCollection" type="gml:ReferenceType" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="routeWaypointLeg" type="gml:ReferenceType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="routeWaypointExtensions" type="RouteExtensions" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+							Additional proprietary information for the Route waypoints specified by the manufacturer
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--                               -->
+	<!-- "RouteWaypointLeg" element type definition -->
+	<!--                               -->
+	<xs:element name="routeWaypointLeg" type="RouteWaypointLeg" substitutionGroup="FeatureType"/>
+	<xs:complexType name="RouteWaypointLeg">
+		<xs:complexContent>
+			<xs:extension base="FeatureType">
+				<xs:sequence>
+					<xs:element name="routeWaypointLegStarboardXTDL" type="XtdType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Starboard cross track distance limit </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegPortXTDL" type="XtdType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Port cross track distance limit</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegStarboardCL" type="XtdType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Starboard cross track distance check limit</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegPortCL" type="XtdType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Port cross track distance check limit</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegSafetyContour" type="NonNegativeRealWith1DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Planned safety contour </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegSafetyDepth" type="NonNegativeRealWith1DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Planned safety depth</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegGeometryType" type="RouteWaypointLegGeometryType" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Geometry type of leg; 1: Loxodrome, 2: Orthodrome </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegSOGMin" type="NonNegativeReal" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Regulatory Lowest speed over ground</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegSOGMax" type="NonNegativeReal" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Regulatory Highest speed over ground</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegSTWMin" type="NonNegativeReal" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Minimum safe speed through water</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegSTWMax" type="NonNegativeReal" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Maximum safe speed through water</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegDraft" type="NonNegativeRealWith1DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Planned static Draft, maximum </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegDraftForward" type="NonNegativeRealWith1DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Planned static Draft Forward </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegDraftAft" type="NonNegativeRealWith1DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Planned static Draft Aft </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegDraftMax" type="NonNegativeRealWith2DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Maximum draft of the route waypoint leg for all vessles </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegAirDraftMax" type="NonNegativeRealWith2DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Maximum air draft of the route waypoint leg for all vessels </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegBeamMax" type="NonNegativeRealWith2DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Maximum vessel beam  of the route waypoint leg for all vessels</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegLengthMax" type="NonNegativeRealWith2DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Maximum vessel length  of the route waypoint leg for all vessels</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegStaticUKC" type="NonNegativeRealWith1DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Minimum static UKC on the leg</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegDynamicUKC" type="NonNegativeRealWith1DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Minimum dynamic UKC on the leg</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegSafetyMargin" type="NonNegativeRealWith1DecimalPlace" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Draft component including uncertainties </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegNote" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Note for the route waypoint leg</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegIssue" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Safety Issue for the route waypoint leg</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeWaypointLegCollection" type="gml:ReferenceType" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="routeWaypointLegExtensions" type="RouteExtensions" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+							Additional proprietary information for the Route waypoint Legs specified by the manufacturer
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--                                              -->
+	<!-- "RouteActionPoints" element type definition -->
+	<!--                                              -->
+	<xs:element name="routeActionPoints" type="RouteActionPoints" substitutionGroup="FeatureType"/>
+	<xs:complexType name="RouteActionPoints">
+		<xs:complexContent>
+			<xs:extension base="FeatureType">
+				<xs:annotation>
+					<xs:documentation>
+					RouteActionPoints definition.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="routeActionPointsCollection" type="gml:ReferenceType" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="routeActionPoint" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="routeActionPointsExtensions" type="RouteExtensions" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+							Additional proprietary information for the action points specified by the manufacturer
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--                                           -->
+	<!-- "RouteActionPoint" element type definition -->
+	<!--                                           -->
+	<xs:element name="routeActionPoint" type="RouteActionPoint" substitutionGroup="FeatureType"/>
+	<xs:complexType name="RouteActionPoint">
+		<xs:complexContent>
+			<xs:extension base="FeatureType">
+				<xs:sequence>
+					<xs:element name="geometry" type="RouteActionPointSpaceGeometry" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Geographical position of the action point in degrees
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeActionPointID" type="PositiveInteger" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Identifier of the action point. The identifier shall be  unique in the route
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeActionPointName" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Name of action point
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeActionPointExternalReference" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							External reference information related with the action point
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeActionPointRadius" type="Real" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Distance from the action point within which action must be taken. 
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeActionPointTimeToAct" type="Integer" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Time before or after action point
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeActionPointRequiredAction" type="RouteActionPointRequiredAction" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							The action required for this action
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeActionPointRequiredActionDescription" type="Text" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Human readable description of the action required for this action point
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeActionPointCollection" type="gml:ReferenceType" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="routeActionPointExtensions" type="RouteExtensions" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+							Additional proprietary information for the action points specified by the manufacturer
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--                                     -->
+	<!-- "RouteActualElement" element type definition -->
+	<!--                                     -->
+	<!--                                     -->
+	<!-- "RouteSchedules" element type definition -->
+	<!--                                     -->
+	<xs:element name="routeSchedules" type="RouteSchedules" substitutionGroup="InformationType"/>
+	<xs:complexType name="RouteSchedules">
+		<xs:complexContent>
+			<xs:extension base="InformationTypeType">
+				<xs:sequence>
+					<xs:element name="routeSchedule" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="routeSchedulesExtensions" type="RouteExtensions" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+							Additional proprietary information for the route schedules specified by the manufacturer
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--                                              -->
+	<!-- "RouteSchedule" element type definition -->
+	<!--                                              -->
+	<xs:element name="routeSchedule" type="RouteSchedule" substitutionGroup="InformationType"/>
+	<xs:complexType name="RouteSchedule">
+		<xs:complexContent>
+			<xs:extension base="InformationTypeType">
+				<xs:annotation>
+					<xs:documentation>
+					Schedule definition.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="routeScheduleID" type="PositiveInteger" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Identifier of the schedule. This identifier is unique in the route
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeScheduleName" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Name of schedule
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeScheduleCollection" type="gml:ReferenceType" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="routeScheduleManual" type="gml:ReferenceType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="routeScheduleCalculated" type="gml:ReferenceType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="routeScheduleRecommended" type="gml:ReferenceType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="routeScheduleExtensions" type="RouteExtensions" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+							Additional proprietary information for the route schedules specified by the manufacturer
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--                                  -->
+	<!-- "RouteScheduleManual" element type definition -->
+	<!--                                  -->
+	<xs:element name="routeScheduleManual" type="RouteScheduleManual" substitutionGroup="InformationType"/>
+	<xs:complexType name="RouteScheduleManual">
+		<xs:complexContent>
+			<xs:extension base="InformationTypeType">
+				<xs:annotation>
+					<xs:documentation>User defined schedule parameters.</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="routeScheduleCollection" type="gml:ReferenceType" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="routeScheduleElement" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="routeScheduleManualExtensions" type="RouteExtensions" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+							Additional proprietary information for the route schedules specified by the manufacturer
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--                                      -->
+	<!-- "RouteScheduleCalculated" element type definition -->
+	<!--                                      -->
+	<xs:element name="routeScheduleCalculated" type="RouteScheduleCalculated" substitutionGroup="InformationType"/>
+	<xs:complexType name="RouteScheduleCalculated">
+		<xs:complexContent>
+			<xs:extension base="InformationTypeType">
+				<xs:annotation>
+					<xs:documentation>
+					Calculated schedule parameters.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="routeScheduleCollection" type="gml:ReferenceType" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="routeScheduleElement" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="routeScheduleCalculatedExtensions" type="RouteExtensions" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+							Additional proprietary information for the route schedules specified by the manufacturer
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--                                      -->
+	<!-- "RouteScheduleRecommend" element type definition -->
+	<!--                                      -->
+	<xs:element name="routeScheduleRecommended" type="RouteScheduleRecommended" substitutionGroup="InformationType"/>
+	<xs:complexType name="RouteScheduleRecommended">
+		<xs:complexContent>
+			<xs:extension base="InformationTypeType">
+				<xs:annotation>
+					<xs:documentation>
+					Recommend schedule parameters.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="routeScheduleCollection" type="gml:ReferenceType" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="routeScheduleElement" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="routeScheduleRecommendedExtensions" type="RouteExtensions" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+							Additional proprietary information for the route schedules specified by the manufacturer
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--                                           -->
+	<!-- "RouteScheduleElement" element type definition -->
+	<!--                                           -->
+	<xs:element name="routeScheduleElement" type="RouteScheduleElement" substitutionGroup="InformationType"/>
+	<xs:complexType name="RouteScheduleElement">
+		<xs:complexContent>
+			<xs:extension base="InformationTypeType">
+				<xs:sequence>
+					<xs:element name="routeWaypointId" type="PositiveInteger" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Waypoint identifier for the schedule element
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeScheduleElementPlanSOG" type="NonNegativeReal" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Planned speed over ground
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeScheduleElementETD" type="DateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Planned  or Recommended Time of departure represented by Estimated Time of departure (ETD)  
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeScheduleElementETA" type="DateTime" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Planned or Recommended Time of arrival represented by Estimated time of arrival (ETA)  
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeScheduleElementETDWindowBefore" type="Integer" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Describes the uncertainty of the predicted ETD before planned time or recommended time 
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeScheduleElementETDWindowAfter" type="Integer" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Describes the uncertainty of the predicted ETD after planned time or recommended time
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeScheduleElementETAWindowBefore" type="Integer" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Describes the uncertainty of the predicted ETA before planned time or recommended time
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeScheduleElementETAWindowAfter" type="Integer" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Describes the uncertainty of the predicted ETA after planned time or recommended time
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeScheduleElementNote" type="Text" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+							Notes for the route schedule element
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeScheduleElementManualCollection" type="gml:ReferenceType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="routeScheduleElementCalculatedCollection" type="gml:ReferenceType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="routeScheduleElementRecommendedCollection" type="gml:ReferenceType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="routeScheduleElementExtensions" type="RouteExtensions" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+							Additional proprietary information for the route schedules specified by the manufacturer
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ============================================================ -->
+	<!-- Complex types End for S421  -->
+	<!-- ============================================================ -->
+	<!-- ============================================================ -->
+	<!-- ============================================= -->
+	<!-- ============================================= -->
+	<!-- types and elements for the dataset definition -->
+	<!-- ============================================= -->
+	<!-- ============================================= -->
+	<xs:complexType name="DatasetType">
+		<xs:annotation>
+			<xs:documentation>Dataset element for S-100 Based Route dataset as "GML document"</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element name="DatasetIdentificationInformation" type="S100:DataSetIdentificationType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Dataset identification information</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="DatasetStructureInformation" type="S100:DataSetStructureInformationType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Dataset structure information</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:group ref="S100:Geometry" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Allows spatial objects to be located outside feature objects (for references, and compatibility with ISO 8211 encoding)</xs:documentation>
+						</xs:annotation>
+					</xs:group>
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="imember" type="IMemberType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>intended for S100 information types. Extension of GML practice, not addressed by ISO 19136.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="member" type="MemberType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>intended for technical GML 3.2 requirement for making the dataset a "GML document" and clause 21.3 of the OGC GML standard</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- treatment of S-100 Information types is provisional, because GML does not have the concept, and they must be modeled as AbstractGML -->
+	<xs:complexType name="MemberType">
+		<xs:annotation>
+			<xs:documentation>dataset member</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureMemberType">
+				<xs:sequence>
+					<xs:element ref="gml:AbstractFeature"/>
+				</xs:sequence>
+				<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="IMemberType">
+		<xs:annotation>
+			<xs:documentation>dataset member S-100 infotmation types</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureMemberType">
+				<xs:sequence>
+					<xs:element ref="InformationType"/>
+				</xs:sequence>
+				<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GenericFeatureType">
+		<xs:complexContent>
+			<xs:extension base="S100:AbstractFeatureType">
+				<xs:sequence>
+					<xs:any namespace="##local" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="DataSet" type="DatasetType"/>
+</xs:schema>

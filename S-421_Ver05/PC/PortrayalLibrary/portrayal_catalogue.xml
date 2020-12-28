@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portrayalCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:noNamespaceSchemaLocation="s100PortrayalCatalog.xsd" productId="" version="">
+   
+   <pixmaps>
+		<pixmap id="PIXMAP01">
+			   <description>
+					<name>PIXMAP01</name>
+					<description>S100 Sample for Pixmaps </description>
+					<language>en</language>
+				 </description>
+				<fileName>./Pixmaps/s100SamplePixmap.xml</fileName>
+				<fileType>Pixmap</fileType>
+				<fileFormat>XML</fileFormat>
+		</pixmap>
+   </pixmaps>
+   <colorProfiles>
+      <colorProfile id="COLOR01">
+         <description>
+            <name>COLOR01</name>
+            <description>color profile with day colors for testing</description>
+            <language>en</language>
+         </description>
+         <fileName>./ColorProfiles/colorProfile.xml</fileName>
+         <fileType>ColorProfile</fileType>
+         <fileFormat>XML</fileFormat>
+      </colorProfile>
+   </colorProfiles>
+ 
+   <symbols>
+	  <symbol id="RTEWPT01">
+         <description>
+            <name>RTEWPT01</name>
+            <description>pattern of symbols for an waypoint consisting of a route</description>
+            <language>en</language>
+         </description>
+         <fileName>./Symbols/RTEWPT01.svg</fileName>
+         <fileType>Symbol</fileType>
+         <fileFormat>SVG</fileFormat>
+      </symbol>	  
+      <symbol id="RTEWPT02">
+         <description>
+            <name>RTEWPT02</name>
+            <description>pattern of symbols for an waypoint consisting of a route</description>
+            <language>en</language>
+         </description>
+         <fileName>./Symbols/RTEWPT02.svg</fileName>
+         <fileType>Symbol</fileType>
+         <fileFormat>SVG</fileFormat>
+      </symbol>	  
+      <symbol id="RTEWPT03">
+         <description>
+            <name>RTEWPT03</name>
+            <description>pattern of symbols for an waypoint consisting of a route</description>
+            <language>en</language>
+         </description>
+         <fileName>./Symbols/RTEWPT03.svg</fileName>
+         <fileType>Symbol</fileType>
+         <fileFormat>SVG</fileFormat>
+      </symbol>	  
+      <symbol id="RTEWOL01">
+         <description>
+            <name>RTEWOL01</name>
+            <description>symbol for RouteLegWOL</description>
+            <language>en</language>
+         </description>
+         <fileName>./Symbols/RTEWOL01.svg</fileName>
+         <fileType>Symbol</fileType>
+         <fileFormat>SVG</fileFormat>
+      </symbol>
+      <symbol id="RTEDOT01">
+         <description>
+            <name>RTEDOT01</name>
+            <description>symbol for Route</description>
+            <language>en</language>
+         </description>
+         <fileName>./Symbols/RTEDOT01.svg</fileName>
+         <fileType>Symbol</fileType>
+         <fileFormat>SVG</fileFormat>
+      </symbol>
+      <symbol id="RTEACTPOT01">
+         <description>
+            <name>RTEACTPOT01</name>
+            <description>symbol for Route ActionPoint</description>
+            <language>en</language>
+         </description>
+         <fileName>./Symbols/RTEACTPOT01.svg</fileName>
+         <fileType>Symbol</fileType>
+         <fileFormat>SVG</fileFormat>
+      </symbol>
+      <symbol id="RTEACTPOT02">
+         <description>
+            <name>RTEACTPOT02</name>
+            <description>symbol for Route ActionPoint</description>
+            <language>en</language>
+         </description>
+         <fileName>./Symbols/RTEACTPOT02.svg</fileName>
+         <fileType>Symbol</fileType>
+         <fileFormat>SVG</fileFormat>
+      </symbol>
+   </symbols>
+   <lineStyles>
+      <lineStyle id="RTEACTLEGLINE">
+         <description>
+            <name>RTEACTLEGLINE</name>
+            <description>Route Active LEG LINE</description>
+            <language>en</language>
+         </description>
+         <fileName>./Symbols/RTEACTLEGLINE.xml</fileName> 
+         <fileType>LineStyle</fileType>
+         <fileFormat>XML</fileFormat>
+      </lineStyle>      
+      <lineStyle id="RTEACTLIMITLINE">
+         <description>
+            <name>RTEACTLIMITLINE</name>
+            <description>Route Active LIMIT LINE</description>
+            <language>en</language>
+         </description>
+         <fileName>./Symbols/RTEACTLIMITLINE.xml</fileName> 
+         <fileType>LineStyle</fileType>
+         <fileFormat>XML</fileFormat>
+      </lineStyle>   
+      <lineStyle id="RTEACTWOLLINE">
+         <description>
+            <name>RTEACTWOLLINE</name>
+            <description>Route Active WOL LINE</description>
+            <language>en</language>
+         </description>
+         <fileName>./Symbols/RTEACTWOLLINE.xml</fileName> 
+         <fileType>LineStyle</fileType>
+         <fileFormat>XML</fileFormat>
+      </lineStyle>   
+      <lineStyle id="RTEALTLEGLINE">
+         <description>
+            <name>RTEALTLEGLINE</name>
+            <description>Route Alternative LEG LINE</description>
+            <language>en</language>
+         </description>
+         <fileName>./Symbols/RTEALTLEGLINE.xml</fileName> 
+         <fileType>LineStyle</fileType>
+         <fileFormat>XML</fileFormat>
+      </lineStyle> 
+      <lineStyle id="RTEALTLIMITLINE">
+         <description>
+            <name>RTEALTLIMITLINE</name>
+            <description>Route Alternative LIMIT LINE</description>
+            <language>en</language>
+         </description>
+         <fileName>./Symbols/RTEALTLIMITLINE.xml</fileName> 
+         <fileType>LineStyle</fileType>
+         <fileFormat>XML</fileFormat>
+      </lineStyle>  
+      <lineStyle id="RTEALTWOLLINE">
+         <description>
+            <name>RTEALTLIMITLINE</name>
+            <description>Route Alternative WOL LINE</description>
+            <language>en</language>
+         </description>
+         <fileName>./Symbols/RTEALTWOLLINE.xml</fileName> 
+         <fileType>LineStyle</fileType>
+         <fileFormat>XML</fileFormat>
+      </lineStyle>  
+   </lineStyles>
+   
+   <areaFills>
+	   <areaFill id="AREAFILL01">
+		   <description>
+				<name>AREAFILL01</name>
+				<description>S100 Sample for AreaFills </description>
+				<language>en</language>
+			 </description>
+			<fileName>./AreaFills/s100SampleAreaFill.xml</fileName>
+			<fileType>AreaFill</fileType>
+			<fileFormat>XML</fileFormat>
+		</areaFill>
+   </areaFills>
+   
+   <fonts>
+    <font id="droid">
+         <description>
+            <name>DroidSans</name>
+            <description>Droid sans serif, from http://www.fontsquirrel.com</description>
+            <language>en</language>
+         </description>
+         <fileName>./Fonts/DroidSans.ttf</fileName>
+         <fileType>Font</fileType>
+         <fileFormat>TTF</fileFormat>
+      </font>
+    <font id="droidBold">
+         <description>
+            <name>DroidSansBold</name>
+            <description>Droid sans serif Bold, from http://www.fontsquirrel.com</description>
+            <language>en</language>
+         </description>
+         <fileName>./Fonts/DroidSans-Bold.ttf</fileName>
+         <fileType>Font</fileType>
+         <fileFormat>TTF</fileFormat>
+      </font>
+    <font id="OpenSans">
+         <description>
+            <name>OpenSans</name>
+            <description>Open sans serif, from http://www.fontsquirrel.com</description>
+            <language>en</language>
+         </description>
+         <fileName>./Fonts/OpenSans-Regular.ttf</fileName>
+         <fileType>Font</fileType>
+         <fileFormat>TTF</fileFormat>
+      </font>
+    <font id="OpenSansBold">
+         <description>
+            <name>OpenSansBold</name>
+            <description>Open sans serif Bold, from http://www.fontsquirrel.com</description>
+            <language>en</language>
+         </description>
+         <fileName>./Fonts/OpenSans-Bold.ttf</fileName>
+         <fileType>Font</fileType>
+         <fileFormat>TTF</fileFormat>
+      </font>
+   </fonts>
+   
+   <viewingGroups>
+      <viewingGroup id="1">
+         <description>
+            <name>21010</name>
+            <description/>
+            <language>en</language>
+         </description>
+      </viewingGroup>
+      <viewingGroup id="2">
+         <description>
+            <name>26220</name>
+            <description/>
+            <language>en</language>
+         </description>
+      </viewingGroup>
+   </viewingGroups>
+   <foundationMode/>
+   <viewingGroupLayers>
+      <viewingGroupLayer id="1">
+         <description>
+            <name>viewingGroupLayer1</name>
+            <description>Test Viewing Group Layer</description>
+            <language>en</language>
+         </description>
+         <viewingGroup>1</viewingGroup>
+      </viewingGroupLayer>
+      <viewingGroupLayer id="2">
+         <description>
+            <name>viewingGroupLayer2</name>
+            <description>Test Viewing Group Layer</description>
+            <language>en</language>
+         </description>
+         <viewingGroup>2</viewingGroup>
+      </viewingGroupLayer>
+   </viewingGroupLayers>
+   
+   <displayModes>
+      <displayMode id="1">
+         <description>
+            <name>Display Base</name>
+            <description>Always on display</description>
+            <language>en</language>
+         </description>
+         <viewingGroupLayer>1</viewingGroupLayer>
+      </displayMode>
+      <displayMode id="2">
+         <description>
+            <name>Standard Display</name>
+            <description>ECDIS default display</description>
+            <language>en</language>
+         </description>
+         <viewingGroupLayer>2</viewingGroupLayer>
+      </displayMode>
+   </displayModes>
+   <displayPlane>
+      <displayPlane id="1">
+         <description>
+            <name>overRadar</name>
+            <description>Content displayed on top of Radar image</description>
+            <language>en</language>
+         </description>
+      </displayPlane>
+      <displayPlane id="2">
+         <description>
+            <name>underRadar</name>
+            <description>Content displayed underneath Radar image</description>
+            <language>en</language>
+         </description>
+      </displayPlane>
+   </displayPlane>
+   
+   <context>
+   </context>
+   
+   <rules>
+      <ruleFile id="1">
+         <description>
+            <name>attributeRules</name>
+            <description>attributeRules</description>
+            <language>en</language>
+         </description>
+         <fileName>./Rules/attributeRules.xsl</fileName>
+         <fileType>Rule</fileType>
+         <fileFormat>XSLT</fileFormat>
+         <ruleType>SubTemplate</ruleType>
+      </ruleFile>
+      <ruleFile id="2">
+         <description>
+            <name>RouteWaypoint</name>
+            <description>RouteWaypoint</description>
+            <language>en</language>
+         </description>
+         <fileName>./Rules/RouteWaypoint.xml</fileName>
+         <fileType>Rule</fileType>
+         <fileFormat>XSLT</fileFormat>
+         <ruleType>SubTemplate</ruleType>
+      </ruleFile>
+      <ruleFile id="3">
+         <description>
+            <name>RouteWaypointLeg</name>
+            <description>RouteWaypointLeg</description>
+            <language>en</language>
+         </description>
+         <fileName>./Rules/RouteWaypointLeg.xml</fileName>
+         <fileType>Rule</fileType>
+         <fileFormat>XSLT</fileFormat>
+         <ruleType>SubTemplate</ruleType>
+      </ruleFile>
+      <ruleFile id="4">
+         <description>
+            <name>RouteActionPoint</name>
+            <description>RouteActionPoint</description>
+            <language>en</language>
+         </description>
+         <fileName>./Rules/RouteActionPoint.xml</fileName>
+         <fileType>Rule</fileType>
+         <fileFormat>XSLT</fileFormat>
+         <ruleType>SubTemplate</ruleType>
+      </ruleFile>
+       <ruleFile id="5">
+         <description>
+            <name>main_Simplified</name>
+            <description>main_Simplified</description>
+            <language>en</language>
+         </description>
+         <fileName>./Rules/main_Simplified.xsl</fileName>
+         <fileType>Rule</fileType>
+         <fileFormat>XSLT</fileFormat>
+         <ruleType>TopLevelTemplate</ruleType>
+      </ruleFile>
+   </rules>
+</portrayalCatalog>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DataSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="S421-InputSchema.xsd"
+xmlns:s100="http://www.iho.int/S100BaseModel" id="S421">
+
+
+<!-- THE SPATIAL OBJECTS -->
+<!-- SOME POINTS -->
+<Points id="PS1">
+		<Point id="P01">
+			<Coordinate2D>
+			<x>53.000595</x>
+			<y>0.251287</y>
+			</Coordinate2D>
+		</Point>
+		<Point id="P02">
+			<Coordinate2D>
+			<x>55.441282</x>
+			<y>4.085683</y>
+			</Coordinate2D>
+		</Point>
+		<Point id="P03">
+			<Coordinate2D>
+			<x>57.592398 </x>
+			<y>8.145643</y>
+			</Coordinate2D>
+		</Point>
+		<Point id="P04">
+			<Coordinate2D>
+			<x>55.441282</x>
+			<y>4.085683</y>
+			</Coordinate2D>
+		</Point>
+</Points>
+<!-- POINT SETS -->
+<!-- CURVES -->
+<Curves id="CS1">
+	<Curve id="01">
+		<Segment interpolation="Loxodromic">
+		<ControlPoint>
+		<x>53.000595</x>
+		<y>0.251287</y>
+		</ControlPoint>
+		<ControlPoint>
+		<x>55.441282</x>
+		<y>4.085683</y>
+		</ControlPoint>
+		</Segment>
+		</Curve>
+	<Curve id="02">
+		<Segment interpolation="Loxodromic">
+		<ControlPoint>
+		<x>55.441282</x>
+		<y>4.085683</y>		
+		</ControlPoint>
+		<ControlPoint>
+		<x>57.592398</x>
+		<y>8.145643</y>
+		</ControlPoint>
+		</Segment>
+	</Curve>
+	<Curve id="03">
+		<Segment interpolation="Loxodromic">
+		<ControlPoint>
+		<x>57.592398</x>
+		<y>8.145643</y>
+		</ControlPoint>
+		<ControlPoint>
+		<x>53.000595</x>
+		<y>0.251287</y>
+		</ControlPoint>
+		</Segment>
+	</Curve>
+</Curves>
+<!-- COMPOSITE CURVES -->
+<CompositeCurves id="CCS1">
+	<CompositeCurve id="1">
+		<Curve ref="01" orientation="Forward"/>
+		<Curve ref="02" orientation="Forward"/>
+	</CompositeCurve>
+</CompositeCurves>
+
+<!-- SURFACES -->
+<Surfaces id="SS01">
+	<Surface id="01">
+		<OuterRing>
+			<Curve ref="01" orientation="Forward"/>
+			<Curve ref="02" orientation="Forward"/>
+			<Curve ref="03" orientation="Reverse"/>
+		</OuterRing>
+	</Surface>
+</Surfaces>
+<!-- THE FEATURE TYPES OF THE DATA SET -->
+<Features id="FTS1">
+	<RouteWaypoint id="01" primitive="Point">
+		<Point ref="01" />
+	</RouteWaypoint>
+	<RouteWaypoint id="02" primitive="Point">
+		<Point ref="02" />
+	</RouteWaypoint>
+	<RouteWaypoint id="03" primitive="Point">
+		<Point ref="03" />
+	</RouteWaypoint>
+	<RouteWaypointLeg id="04" primitive="Curve">
+		<Curve ref="01" orientation="Forward"/>
+		<routeWaypointLegIssue>Shallow Flow, Be Careful</routeWaypointLegIssue>
+	</RouteWaypointLeg>
+	<RouteWaypointLeg id="05" primitive="Curve">
+		<Curve ref="02" orientation="Forward"/>
+	</RouteWaypointLeg>
+	<RouteActionPoint id="06" primitive="Point">
+		<Point ref="04" />
+		<routeActionPointRequredActionDescription>Report to UKCM</routeActionPointRequredActionDescription>
+	</RouteActionPoint>
+	<RouteActionPoint id="07" primitive="Curve">
+		<Curve ref="02" orientation="Forward"/>
+		<routeActionPointRequredActionDescription>Be Careful</routeActionPointRequredActionDescription>
+	</RouteActionPoint>
+	<RouteActionPoint id="08" primitive="Surface">
+		<Surface ref="01"/>
+		<routeActionPointRequredActionDescription>Shallow, Be careful </routeActionPointRequredActionDescription>
+	</RouteActionPoint>
+</Features>
+
+</DataSet>
